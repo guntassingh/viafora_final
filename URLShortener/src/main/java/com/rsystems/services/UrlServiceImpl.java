@@ -24,7 +24,7 @@ public class UrlServiceImpl implements UrlService {
 	@Autowired
 	private UrlRepository repository;
 
-	@Value("URL_EXIST")
+	@Value("URL_FOUND")
 	String urlexist;
 
 	@Override

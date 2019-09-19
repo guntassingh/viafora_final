@@ -12,7 +12,8 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
 
 		if (userToken.equals("1234")) {
 			return true;
-		} else
+		} else {
 			throw new UnAuthorizedException("UnAuthorized User");
+		}
 	}
 }

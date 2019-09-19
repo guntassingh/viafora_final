@@ -8,28 +8,22 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rsystems.dtos.CreateLinkDTO;
-import com.rsystems.dtos.JsonResponse;
 import com.rsystems.dtos.LinkDTO;
 import com.rsystems.entities.Statistic;
 import com.rsystems.entities.Url;
-import com.rsystems.exceptions.UrlFoundException;
 import com.rsystems.exceptions.UrlNotFoundException;
 import com.rsystems.services.StatisticService;
 import com.rsystems.services.ThirdPartyService;
@@ -52,6 +46,10 @@ public class UrlController {
 
 	@Autowired
 	private StatisticService statisticService;
+	
+	@Value("URL_NOT_FOUND")
+	String urlnotexist;
+	
 
 	@ApiOperation(value = "Create Shortern URL", response = LinkDTO.class)
 	@PostMapping(value = "/s/url")
@@ -75,7 +73,7 @@ public class UrlController {
 
 		Url url = urlService.find(code);
 		if (url == null) {
-			throw new UrlNotFoundException("URL not found");
+			throw new UrlNotFoundException(urlnotexist);
 		}
 
 		Statistic statistic = statisticService.mapFrom(headersMap, url);

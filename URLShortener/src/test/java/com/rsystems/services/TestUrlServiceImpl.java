@@ -137,24 +137,6 @@ public class TestUrlServiceImpl {
 		
 	  }
 	  
-	  @Test(expected = Exception.class)
-	    public void testGetExistingUrl_failure2() throws NoSuchAlgorithmException {
-		  
-			String existingCode = "MmM3MT";
-			Date d = new Date();
-			Url existingUrl = new Url(existingCode, "http://www.docker.com", "12345");
-			  CreateLinkDTO createLinkDTO=new CreateLinkDTO();
-			  createLinkDTO.setCustomerId("12345");
-			  createLinkDTO.setUrl("http://www.docker.com");
-			Optional<Url> optional = Optional.of(existingUrl);
-			existingUrl.setCreatedAt(new Date());
-			Mockito.when(repository.findById(existingCode)).thenReturn(optional);
-			Mockito.when(urlService.fromDTO(createLinkDTO)).thenReturn(existingUrl);
-			Mockito.when(repository.save(existingUrl)).thenReturn(existingUrl);
-			String longUrl = "http://www.docker.com12345";
-			Mockito.when(MessageDigest.getInstance("XYZ").digest(longUrl.getBytes())).thenThrow(new NoSuchAlgorithmException());  
-			Mockito.doThrow(new NoSuchAlgorithmException()).when(MessageDigest.getInstance("MD5").digest(longUrl.getBytes()));
-			urlService.createShortURL(createLinkDTO);
-	  }
+	
 	  
 }
